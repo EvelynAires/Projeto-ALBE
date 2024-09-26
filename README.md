@@ -61,11 +61,11 @@ Ela tem como objetivo exibir os pratos, então irá percorrer e exibir todos os 
 
 #### 3 - Buscar um prato
 ``Prato *buscarPrato(Prato *raiz, int codigo)``:
-Essa função serve para procurar um prato específico na árvore binária de busca de acordo com o código do prato. Recebe a raiz e o código para ser achado, caso a raiz for nula ou o código do prato a ser encontrado coincida com o código buscado, a função irá retornar ou o nó atual ou NULL caso o prato não exista. E caso o código for menor do que o nó atual, irá realizar uma busca recursiva na subárvore que está à esquerda e se for maior, irá realizar à direita.
+Essa função serve para procurar um prato específico na árvore binária de busca de acordo com o código do prato. Recebe a raiz e o código para ser achado, caso a raiz seja nula ou o código do prato a ser encontrado coincida com o código buscado, a função irá retornar ou o nó atual ou NULL caso o prato não exista. E caso o código for menor do que o nó atual, irá realizar uma busca recursiva na subárvore que está à esquerda e se for maior, irá realizar à direita.
 
 #### 4 - Deletar um prato
 ``Prato *deletarPrato(Prato *raiz, int codigo)``:
-Ela busca o nó que contém o código que está sendo procurado, percorrendo a subárvpre esquerda caso for menor que a raiz e a subárvore direita caso for maior e quando o nó é encontrado temos três possíveis acontecimentos, se esse nó não tiver filhos ele é apenas removido, se ele etiver um filho, um ponteiro para esse filho substituirá o nó removido e se ele tiver dois filhos a fução irá encontrar o mnor valor da subárvore direita chamado sucessor, substituir os dados do nó por esse valor e depois remove o sucessor da subárvpre direita. Depois da remoção, essa funçaõ retorna a raiz utilizada da árvore.
+Ela busca o nó que contém o código que está sendo procurado, percorrendo a subárvore esquerda caso for menor que a raiz e a subárvore direita caso for maior e quando o nó é encontrado temos três possíveis acontecimentos: Se esse nó não tiver filhos ele é apenas removido; se ele tiver um filho, um ponteiro para esse filho substituirá o nó removido e se ele tiver dois filhos a fução irá encontrar o menor valor da subárvore direita chamado sucessor, e então irá substituir os dados do nó por esse valor e depois remover o sucessor da subárvore direita. Depois da remoção, essa função retorna a raiz utilizada da árvore.
 
 #### 5 - Alterar os dados de um prato
 ``void alterarPrato(Prato *raiz, int codigo)``:
