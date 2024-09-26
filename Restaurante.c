@@ -1,35 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct Prato Prato;
-
-void menu(Prato **raiz);
-void pratos(Prato **raiz);
-Prato *criarABin(int codigo, char nome[]);
-Prato *inserirPrato(Prato *raiz, int codigo, char nome[]);
-void exibirPratos(Prato *raiz);
-Prato *buscarPrato(Prato *raiz, int codigo);
-Prato *encontrarMinimo(Prato *raiz);
-Prato *deletarPrato(Prato *raiz, int codigo);
-void alterarPrato(Prato *raiz, int codigo);
-void liberarMemoria(Prato *raiz);
-
-int main(void)
-{
-    Prato *raiz = NULL;
-    menu(&raiz);
-
-    return 0;
-}
-
-typedef struct Prato
+#include "Restaurante.h"
+struct Prato
 {
     int codigo;
     char nome[50];
     struct Prato *esquerda;
     struct Prato *direita;
-} Prato;
+};
 
 void menu(Prato **raiz)
 {
@@ -160,6 +136,7 @@ Prato *deletarPrato(Prato *raiz, int codigo)
     }
     return raiz;
 }
+
 void alterarPrato(Prato *raiz, int codigo)
 {
     if (raiz == NULL)
@@ -253,14 +230,11 @@ void pratos(Prato **raiz)
             scanf("%d", &codigo);
             alterarPrato(*raiz, codigo);
             break;
-        case 6:
-            printf("Voltando ao menu principal...\n");
-            break;
-
         default:
             printf("Opcao invalida!\n");
         }
-    } while (opcao != 5);
+    } while (opcao != 6);
+    printf("Voltando ao menu principal...\n");
 }
 
 void liberarMemoria(Prato *raiz)
