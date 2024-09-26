@@ -5,38 +5,38 @@
 <h1 align="center">Albe's Restaurant</h1>
 <h2 align="center">Laboratório de Algoritmos e Estruturas de Dados II</h2>
 
-## Docente da turma
+## *Docente da turma*
 - [Kennedy Reurison Lopes]()
 
-## Componentes da equipe
+## *Componentes da equipe*
 - [Ana Beatriz Almeida da Silva](https://github.com/biiaalmeida)
 - [Artur Carvalho Gama](https://github.com/Arturzip)
 - [Evelyn Cristina de Oliveira Gomes](https://github.com/EvelynAires)
 - [Luiz Eduardo de A. Rodrigues](https://github.com/LuizEdu-AR)
 
 
-## Linguagem utilizada
+## *Linguagem utilizada*
 
 ![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
 
-## Nesse arquivo você verá:
+## *Nesse arquivo você verá:*
 - [Introdução](#Introdução)
 - [Descrição](#Descrição)
 - [Organização do Menu](#Organização-do-Menu)
 - [Funções Implementadas](#Funções-Implementadas)
 
-### *Introdução* 
+## *Introdução* 
 O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante. Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
 
-### *Descrição* 
+## *Descrição* 
   O sistema do ALBE Restaurante irá contar com um menu de 7 opções, incluindo a opção de sair, foi criado para conter as funcionalidades de cadastrar funcionários, gerenciar os pedidos, ter a organização de estoque, obter o controle das reservas, 
 ter a visualização do Menu de pratos do restaurante e também registrar o ponto dos funcionários. 
 
- No que se refere aos conteúdos aprendidos em sala, utilizaremos Tabela Hash, HEAP, AVL, Árvore Binária, e provavelmente algum assunto estudado no componente curricular anterior como Lista.
+ No que se refere aos conteúdos aprendidos em sala, utilizaremos Tabela Hash, HEAP, AVL e Árvore Binária.
  
 
 
-### *Organização do Menu* 
+## *Organização do Menu* 
 ```
 ---------------------------------
       Bem-Vindo(a)!
@@ -50,16 +50,16 @@ ter a visualização do Menu de pratos do restaurante e também registrar o pont
 ---------------------------------
 ```
 
-### *Funções Implementadas*
-#### 1 - Cadastro de Funcionários 
+## *Funções Implementadas*
+### 1 - Cadastro de Funcionários 
 
-#### 2- Pedidos
+### 2- Pedidos
 
-#### 3 - Estoque 
+### 3 - Estoque 
 
-#### 4 - Reservas
+### 4 - Reservas
 
-#### 5 - Menu de Pratos
+### 5 - Menu de Pratos
 ```
 ---- Menu de Pratos ----
 1 - Criar um novo prato
@@ -85,11 +85,11 @@ Essa função serve para procurar um prato específico na árvore binária de bu
 
 #### 4 - Deletar um prato
 ``Prato *deletarPrato(Prato *raiz, int codigo)``:
-Ela busca o nó que contém o código que está sendo procurado, percorrendo a subárvpre esquerda caso for menor que a raiz e a subárvore direita caso for maior e quando o nó é encontrado temos três possíveis acontecimentos, se esse nó não tiver filhos ele é apenas removido, se ele etiver um filho, um ponteiro para esse filho substituirá o nó removido e se ele tiver dois filhos a fução irá encontrar o mnor valor da subárvore direita chamado sucessor, substituir os dados do nó por esse valor e depois remove o sucessor da subárvpre direita. Depois da remoção, essa funçaõ retorna a raiz utilizada da árvore.
+Ela busca o nó que contém o código que está sendo procurado, percorrendo a subárvore esquerda caso seja menor que a raiz e caso seja maior a subárvore direita e quando o nó é encontrado temos três possíveis acontecimentos: Se esse nó não tiver filhos ele é apenas removido; se ele tiver um filho, um ponteiro para esse filho substituirá o nó removido e se ele tiver dois filhos a função irá encontrar o menor valor da subárvore direita chamado sucessor, substituir os dados do nó por esse valor e depois remover o sucessor da subárvore direita. Depois da remoção, essa função retorna a raiz utilizada da árvore.
 
 #### 5 - Alterar os dados de um prato
 ``void alterarPrato(Prato *raiz, int codigo)``:
-Nessa função é realizada a busca pelo código, caso o código não seja encontrado, é impressa a mensagem que o prato do código informado não foi encontrado e caso seja encontrado, o nome atual do prato é mostrado e o programa irá solicitar para que o usuário digite o novo nome, exibindo logo após a confirmação, a mensagem comunicando que o nome foi alterado.
+Nessa função é realizada a busca pelo código, caso o código não seja encontrado, é impressa a mensagem que o prato do código informado não foi encontrado e caso seja encontrado, o nome atual do prato é mostrado e o programa irá solicitar para que o usuário digite o novo nome, exibindo logo após a confirmação a mensagem comunicando que o nome foi alterado.
 
 #### 6 - Voltar ao menu principal 
 `` case 6:
