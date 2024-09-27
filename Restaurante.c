@@ -7,6 +7,41 @@ struct Prato
     struct Prato *direita;
 };
 
+int integerValidation()
+{
+
+    int input;
+    do
+    {
+        if ((scanf(" %d", &input)) != 1)
+        {
+            printf("Permitido apenas numeros\n");
+            printf("Digite novamente: ");
+            while (getchar() != '\n')
+                ;
+        }
+        else
+        {
+            printf("\n-----------------------------\n");
+            return input;
+        }
+    } while (1);
+}
+
+int stringValidation(char *nome)
+{
+    int i;
+    for (i = 0; nome[i]; i++)
+    {
+        if (!isalpha(nome[i]) && nome[i] != ' ')
+        {
+            printf("O nome deve conter apenas letras.\n");
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void menu(Prato **raiz)
 {
     int op;
@@ -23,7 +58,7 @@ void menu(Prato **raiz)
         printf("7 - Sair \n");
         printf("------------------------------- \n");
         printf("Escolha uma opcao: ");
-        scanf("%d", &op);
+        op = integerValidation();
 
         switch (op)
         {
@@ -156,11 +191,13 @@ void alterarPrato(Prato *raiz, int codigo)
     else
     {
         printf("Prato encontrado: %s (Codigo: %d)\n", raiz->nome, raiz->codigo);
-
         char novoNome[50];
-        printf("Digite o novo nome do prato: ");
-        getchar();
-        scanf("%[^\n]", novoNome);
+        do
+        {
+            printf("Digite o novo nome do prato: ");
+            getchar();
+            scanf("%[^\n]", novoNome);
+        } while (stringValidation(novoNome));
 
         strcpy(raiz->nome, novoNome);
         printf("ALTERADO!\n");
@@ -182,16 +219,20 @@ void pratos(Prato **raiz)
         printf("6 - Voltar ao menu principal\n");
         printf("------------------------\n");
         printf("Escolha uma opcao: \n");
-        scanf("%d", &opcao);
+        opcao = integerValidation();
 
         switch (opcao)
         {
         case 1:
             printf("Digite o codigo do prato: ");
-            scanf("%d", &codigo);
-            printf("Digite o nome do prato: ");
-            getchar();
-            scanf("%[^\n]", nome);
+            codigo = integerValidation();
+            do
+            {
+                printf("Digite o nome do prato: ");
+                getchar();
+                scanf("%[^\n]", nome);
+            } while (stringValidation(nome));
+
             *raiz = inserirPrato(*raiz, codigo, nome);
             printf("Prato inserido com sucesso!\n");
             break;
@@ -208,7 +249,7 @@ void pratos(Prato **raiz)
             break;
         case 3:
             printf("Digite o codigo do prato a ser buscado: ");
-            scanf("%d", &codigo);
+            codigo = integerValidation();
             Prato *prato = buscarPrato(*raiz, codigo);
             if (prato != NULL)
             {
@@ -221,13 +262,13 @@ void pratos(Prato **raiz)
             break;
         case 4:
             printf("Digite o codigo do prato a ser deletado: ");
-            scanf("%d", &codigo);
+            codigo = integerValidation();
             *raiz = deletarPrato(*raiz, codigo);
             printf("Prato deletado com sucesso!\n");
             break;
         case 5:
             printf("Digite o codigo do prato: \n");
-            scanf("%d", &codigo);
+            codigo = integerValidation();
             alterarPrato(*raiz, codigo);
             break;
         default:

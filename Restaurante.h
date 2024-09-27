@@ -5,6 +5,10 @@
 
 typedef struct Prato Prato;
 
+int integerValidation();
+
+int stringValidation(char *nome);
+
 void menu(Prato **raiz);
 
 void pratos(Prato **raiz);
