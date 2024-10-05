@@ -42,7 +42,7 @@ int stringValidation(char *nome)
     return 0;
 }
 
-void menu(Prato **raiz)
+void menu(Prato **raiz, int *codigo)
 {
     int op;
     do
@@ -63,7 +63,7 @@ void menu(Prato **raiz)
         switch (op)
         {
         case 5:
-            pratos(raiz);
+            pratos(raiz, codigo);
             break;
         case 7:
             liberarMemoria(*raiz);
@@ -91,11 +91,12 @@ Prato *inserirPrato(Prato *raiz, int codigo, char nome[])
     {
         return criarABin(codigo, nome);
     }
-    if (codigo < raiz->codigo)
+
+    if (strcmp(nome, raiz->nome) < 0)
     {
         raiz->esquerda = inserirPrato(raiz->esquerda, codigo, nome);
     }
-    else if (codigo > raiz->codigo)
+    else if (strcmp(nome, raiz->nome) > 0)
     {
         raiz->direita = inserirPrato(raiz->direita, codigo, nome);
     }
@@ -112,19 +113,20 @@ void exibirPratos(Prato *raiz)
     }
 }
 
-Prato *buscarPrato(Prato *raiz, int codigo)
+Prato *buscarPrato(Prato *raiz, char *nome)
 {
-    if (raiz == NULL || raiz->codigo == codigo)
+    if (raiz == NULL || strcmp(raiz->nome, nome) == 0)
     {
         return raiz;
     }
-    if (codigo < raiz->codigo)
+
+    if (strcmp(nome, raiz->nome) < 0)
     {
-        return buscarPrato(raiz->esquerda, codigo);
+        return buscarPrato(raiz->esquerda, nome);
     }
     else
     {
-        return buscarPrato(raiz->direita, codigo);
+        return buscarPrato(raiz->direita, nome);
     }
 }
 
@@ -135,19 +137,21 @@ Prato *encontrarMinimo(Prato *raiz)
     return raiz;
 }
 
-Prato *deletarPrato(Prato *raiz, int codigo)
+Prato *deletarPrato(Prato *raiz, char *nome)
 {
     if (raiz == NULL)
     {
+        printf("prato nao encontrado :(\n");
         return raiz;
     }
-    if (codigo < raiz->codigo)
+
+    if (strcmp(nome, raiz->nome) < 0)
     {
-        raiz->esquerda = deletarPrato(raiz->esquerda, codigo);
+        raiz->esquerda = deletarPrato(raiz->esquerda, nome);
     }
-    else if (codigo > raiz->codigo)
+    else if (strcmp(nome, raiz->nome) > 0)
     {
-        raiz->direita = deletarPrato(raiz->direita, codigo);
+        raiz->direita = deletarPrato(raiz->direita, nome);
     }
     else
     {
@@ -165,49 +169,53 @@ Prato *deletarPrato(Prato *raiz, int codigo)
         }
 
         Prato *temp = encontrarMinimo(raiz->direita);
-        raiz->codigo = temp->codigo;
         strcpy(raiz->nome, temp->nome);
-        raiz->direita = deletarPrato(raiz->direita, temp->codigo);
+        raiz->codigo = temp->codigo;
+        raiz->direita = deletarPrato(raiz->direita, temp->nome);
     }
+    printf("Prato deletado!\n");
     return raiz;
 }
 
-void alterarPrato(Prato *raiz, int codigo)
-{
-    if (raiz == NULL)
+void alterarPrato(Prato **raiz, char *nome){
+    if (*raiz == NULL)
     {
-        printf("Prato com codigo %d não encontrado.\n", codigo);
+        printf("Prato nao encontrado.\n");
         return;
     }
 
-    if (codigo < raiz->codigo)
-    {
-        alterarPrato(raiz->esquerda, codigo);
-    }
-    else if (codigo > raiz->codigo)
-    {
-        alterarPrato(raiz->direita, codigo);
-    }
-    else
-    {
-        printf("Prato encontrado: %s (Codigo: %d)\n", raiz->nome, raiz->codigo);
-        char novoNome[50];
-        do
-        {
-            printf("Digite o novo nome do prato: ");
-            getchar();
-            scanf("%[^\n]", novoNome);
-        } while (stringValidation(novoNome));
+    Prato *prato = buscarPrato(*raiz, nome);
 
-        strcpy(raiz->nome, novoNome);
-        printf("ALTERADO!\n");
+    if (prato == NULL)
+    {
+        printf("Prato nao encontrado.\n");
+        return;
     }
+
+    printf("Prato encontrado: %s (Codigo: %d)\n", prato->nome, prato->codigo);
+
+    char novoNome[50];
+    do
+    {
+        printf("Digite o novo nome do prato: ");
+        getchar();
+        scanf("%[^\n]", novoNome);
+    } while (stringValidation(novoNome));
+
+    int codigoPrato = prato->codigo;
+
+    *raiz = deletarPrato(*raiz, nome);
+
+    *raiz = inserirPrato(*raiz, codigoPrato, novoNome);
+
+    printf("Prato alterado e reposicionado na arvore!\n");
 }
 
-void pratos(Prato **raiz)
+void pratos(Prato **raiz, int *codigo)
 {
-    int opcao, codigo;
+    int opcao;
     char nome[50];
+
     do
     {
         printf("\n---- Menu de Pratos ----\n");
@@ -224,23 +232,28 @@ void pratos(Prato **raiz)
         switch (opcao)
         {
         case 1:
-            printf("Digite o codigo do prato: ");
-            codigo = integerValidation();
             do
             {
                 printf("Digite o nome do prato: ");
                 getchar();
                 scanf("%[^\n]", nome);
             } while (stringValidation(nome));
-
-            *raiz = inserirPrato(*raiz, codigo, nome);
-            printf("Prato inserido com sucesso!\n");
+            if (verificarExis(*raiz, nome))
+            {
+                printf("O prato já existe!\n");
+            }
+            else
+            {
+                (*codigo)++;
+                *raiz = inserirPrato(*raiz, *codigo, nome);
+                printf("Prato inserido com sucesso!\n");
+            }
             break;
         case 2:
             printf("\nLista de pratos:\n");
             if (*raiz == NULL)
             {
-                printf("Parece que ainda não há pratos...\n");
+                printf("Parece que ainda nao ha pratos...\n");
             }
             else
             {
@@ -248,9 +261,13 @@ void pratos(Prato **raiz)
             }
             break;
         case 3:
-            printf("Digite o codigo do prato a ser buscado: ");
-            codigo = integerValidation();
-            Prato *prato = buscarPrato(*raiz, codigo);
+            do
+            {
+                printf("Digite o nome do prato a ser buscado: ");
+                getchar();
+                scanf("%[^\n]", nome);
+            } while (stringValidation(nome));
+            Prato *prato = buscarPrato(*raiz, nome);
             if (prato != NULL)
             {
                 printf("Prato encontrado: %s, Codigo: %d\n", prato->nome, prato->codigo);
@@ -261,15 +278,23 @@ void pratos(Prato **raiz)
             }
             break;
         case 4:
-            printf("Digite o codigo do prato a ser deletado: ");
-            codigo = integerValidation();
-            *raiz = deletarPrato(*raiz, codigo);
-            printf("Prato deletado com sucesso!\n");
+            do
+            {
+                printf("Digite o nome do prato a ser deletado: ");
+                getchar();
+                scanf("%[^\n]", nome);
+            } while (stringValidation(nome));
+
+            *raiz = deletarPrato(*raiz, nome);
             break;
         case 5:
-            printf("Digite o codigo do prato: \n");
-            codigo = integerValidation();
-            alterarPrato(*raiz, codigo);
+            do
+            {
+                printf("Digite o nome do prato: ");
+                getchar();
+                scanf("%[^\n]", nome);
+            } while (stringValidation(nome));
+            alterarPrato(raiz, nome);
             break;
         default:
             printf("Opcao invalida!\n");
@@ -285,5 +310,29 @@ void liberarMemoria(Prato *raiz)
         liberarMemoria(raiz->esquerda);
         liberarMemoria(raiz->direita);
         free(raiz);
+    }
+}
+
+int verificarExis(Prato *raiz, char *nome)
+{
+    if (raiz == NULL)
+    {
+        return 0;
+    }
+
+    int comparacao = strcmp(raiz->nome, nome);
+
+    if (comparacao == 0)
+    {
+        return 1;
+    }
+
+    if (comparacao > 0)
+    {
+        return verificarExis(raiz->esquerda, nome);
+    }
+    else
+    {
+        return verificarExis(raiz->direita, nome);
     }
 }

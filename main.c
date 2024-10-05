@@ -2,7 +2,9 @@
 
 int main(void)
 {
+    int codigo = 0;
     Prato *raiz = NULL;
-    menu(&raiz);
+    menu(&raiz, &codigo);
+
     return 0;
 }
