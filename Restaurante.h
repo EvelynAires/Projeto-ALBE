@@ -5,6 +5,8 @@
 
 typedef struct Prato Prato;
 
+typedef struct pedido Pedido;
+
 int integerValidation();
 
 int stringValidation(char *nome);
@@ -13,9 +15,9 @@ void menu(Prato **raiz, int *codigo);
 
 void pratos(Prato **raiz, int *codigo);
 
-Prato *criarABin(int codigo, char nome[]);
+Prato *criarABin(int codigo, char nome[], float preco);
 
-Prato *inserirPrato(Prato *raiz, int codigo, char nome[]);
+Prato *inserirPrato(Prato *raiz, int codigo, char nome[], float preco);
 
 void exibirPratos(Prato *raiz);
 

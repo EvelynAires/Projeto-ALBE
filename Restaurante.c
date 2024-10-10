@@ -2,6 +2,7 @@
 struct Prato
 {
     int codigo;
+    float preco;
     char nome[50];
     struct Prato *esquerda;
     struct Prato *direita;
@@ -62,6 +63,9 @@ void menu(Prato **raiz, int *codigo)
 
         switch (op)
         {
+        case 2:
+
+            break;
         case 5:
             pratos(raiz, codigo);
             break;
@@ -75,30 +79,31 @@ void menu(Prato **raiz, int *codigo)
     } while (op != 7);
 }
 
-Prato *criarABin(int codigo, char nome[])
+Prato *criarABin(int codigo, char nome[], float preco)
 {
     Prato *novo = (Prato *)malloc(sizeof(Prato));
     novo->codigo = codigo;
+    novo->preco = preco;
     strcpy(novo->nome, nome);
     novo->esquerda = NULL;
     novo->direita = NULL;
     return novo;
 }
 
-Prato *inserirPrato(Prato *raiz, int codigo, char nome[])
+Prato *inserirPrato(Prato *raiz, int codigo, char nome[], float preco)
 {
     if (raiz == NULL)
     {
-        return criarABin(codigo, nome);
+        return criarABin(codigo, nome, preco);
     }
 
     if (strcmp(nome, raiz->nome) < 0)
     {
-        raiz->esquerda = inserirPrato(raiz->esquerda, codigo, nome);
+        raiz->esquerda = inserirPrato(raiz->esquerda, codigo, nome, preco);
     }
     else if (strcmp(nome, raiz->nome) > 0)
     {
-        raiz->direita = inserirPrato(raiz->direita, codigo, nome);
+        raiz->direita = inserirPrato(raiz->direita, codigo, nome, preco);
     }
     return raiz;
 }
@@ -108,7 +113,7 @@ void exibirPratos(Prato *raiz)
     if (raiz != NULL)
     {
         exibirPratos(raiz->esquerda);
-        printf("Prato: %s, Codigo: %d\n", raiz->nome, raiz->codigo);
+        printf("Prato: %s, Codigo: %d Preco: R$%.2f\n", raiz->nome, raiz->codigo, raiz->preco);
         exibirPratos(raiz->direita);
     }
 }
@@ -159,12 +164,14 @@ Prato *deletarPrato(Prato *raiz, char *nome)
         {
             Prato *temp = raiz->direita;
             free(raiz);
+            printf("Prato deletado!\n");
             return temp;
         }
         else if (raiz->direita == NULL)
         {
             Prato *temp = raiz->esquerda;
             free(raiz);
+            printf("Prato deletado!\n");
             return temp;
         }
 
@@ -173,11 +180,11 @@ Prato *deletarPrato(Prato *raiz, char *nome)
         raiz->codigo = temp->codigo;
         raiz->direita = deletarPrato(raiz->direita, temp->nome);
     }
-    printf("Prato deletado!\n");
     return raiz;
 }
 
-void alterarPrato(Prato **raiz, char *nome){
+void alterarPrato(Prato **raiz, char *nome)
+{
     if (*raiz == NULL)
     {
         printf("Prato nao encontrado.\n");
@@ -192,28 +199,42 @@ void alterarPrato(Prato **raiz, char *nome){
         return;
     }
 
-    printf("Prato encontrado: %s (Codigo: %d)\n", prato->nome, prato->codigo);
+    printf("Prato encontrado: %s , Preco: %.2f (Codigo: %d)\n", prato->nome, prato->preco, prato->codigo);
 
     char novoNome[50];
+    float preco;
+    int valid;
+
     do
     {
         printf("Digite o novo nome do prato: ");
+        scanf(" %[^\n]", novoNome);
         getchar();
-        scanf("%[^\n]", novoNome);
     } while (stringValidation(novoNome));
+    do
+    {
+        printf("Digite o preco: \n");
+        valid = scanf(" %f", &preco);
+        while (getchar() != '\n')
+            ;
+        if (valid == 0)
+        {
+            printf("Por favor, insira um numero valido para o preco.\n");
+        }
+    } while (valid == 0);
 
     int codigoPrato = prato->codigo;
 
     *raiz = deletarPrato(*raiz, nome);
-
-    *raiz = inserirPrato(*raiz, codigoPrato, novoNome);
+    *raiz = inserirPrato(*raiz, codigoPrato, novoNome, preco);
 
     printf("Prato alterado e reposicionado na arvore!\n");
 }
 
 void pratos(Prato **raiz, int *codigo)
 {
-    int opcao;
+    int opcao, valid;
+    float preco;
     char nome[50];
 
     do
@@ -238,6 +259,17 @@ void pratos(Prato **raiz, int *codigo)
                 getchar();
                 scanf("%[^\n]", nome);
             } while (stringValidation(nome));
+            do
+            {
+                printf("Digite o preco: \n");
+                valid = scanf(" %f", &preco);
+                while (getchar() != '\n')
+                    ;
+                if (valid == 0)
+                {
+                    printf("Por favor, insira um numero valido para o preco.\n");
+                }
+            } while (valid == 0);
             if (verificarExis(*raiz, nome))
             {
                 printf("O prato já existe!\n");
@@ -245,7 +277,7 @@ void pratos(Prato **raiz, int *codigo)
             else
             {
                 (*codigo)++;
-                *raiz = inserirPrato(*raiz, *codigo, nome);
+                *raiz = inserirPrato(*raiz, *codigo, nome, preco);
                 printf("Prato inserido com sucesso!\n");
             }
             break;
@@ -270,7 +302,7 @@ void pratos(Prato **raiz, int *codigo)
             Prato *prato = buscarPrato(*raiz, nome);
             if (prato != NULL)
             {
-                printf("Prato encontrado: %s, Codigo: %d\n", prato->nome, prato->codigo);
+                printf("Prato encontrado: %s, Codigo: %d\n, Preco: %.2f\n", prato->nome, prato->codigo, prato->preco);
             }
             else
             {
