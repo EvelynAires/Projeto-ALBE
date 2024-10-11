@@ -8,6 +8,16 @@ struct Prato
     struct Prato *direita;
 };
 
+struct Funcionario
+{
+    char nome[100];
+    char funcao[100];
+    int pin;
+    char status[20];
+
+    struct Funcionario *proximo;
+};
+
 int integerValidation()
 {
 
@@ -43,9 +53,11 @@ int stringValidation(char *nome)
     return 0;
 }
 
-void menu(Prato **raiz, int *codigo)
+void menu(Prato **raiz, int *codigo, Funcionario **Funcionario)
 {
-    int op;
+    char nome[20];
+    char funcao[20];
+    int pin, op;
     do
     {
         printf("------------------------------- \n");
@@ -63,14 +75,24 @@ void menu(Prato **raiz, int *codigo)
 
         switch (op)
         {
-        case 2:
-
+            case 1: 
+            menuFuncionarios(Funcionario);
             break;
         case 5:
             pratos(raiz, codigo);
             break;
+        case 6:
+            printf("Nome: \n");
+            scanf(" %[^\n]", nome);
+
+            printf("PIN: \n");
+            scanf("%d", &pin);
+
+            baterPonto(Funcionario, pin, nome);
+            break;
         case 7:
-            liberarMemoria(*raiz);
+            liberarABin(*raiz);
+            liberarHash(Funcionario);
             printf("Saindo...\n");
             break;
         default:
@@ -335,12 +357,12 @@ void pratos(Prato **raiz, int *codigo)
     printf("Voltando ao menu principal...\n");
 }
 
-void liberarMemoria(Prato *raiz)
+void liberarABin(Prato *raiz)
 {
     if (raiz != NULL)
     {
-        liberarMemoria(raiz->esquerda);
-        liberarMemoria(raiz->direita);
+        liberarABin(raiz->esquerda);
+        liberarABin(raiz->direita);
         free(raiz);
     }
 }
@@ -366,5 +388,239 @@ int verificarExis(Prato *raiz, char *nome)
     else
     {
         return verificarExis(raiz->direita, nome);
+    }
+}
+
+void menuFuncionarios(Funcionario **Funcionario)
+{
+
+    char nome[20];
+    char funcao[20];
+    int pin;
+
+    while (1)
+    {
+
+        printf("1 - Registrar funcionario \n");
+        printf("2 - Deletar funcionario \n");
+        printf("3 - Mostrar funcionarios \n");
+        printf("4 - Modificar dados \n");
+        printf("5 - Retornar ao menu principal \n");
+
+        int op = 0;
+        scanf("%d", &op);
+
+        switch (op)
+        {
+        case 1:
+            printf("Nome: \n");
+            scanf(" %[^\n]", nome);
+
+            printf("Funcao: \n");
+            scanf(" %[^\n]", funcao);
+
+            printf("Pin: \n");
+            scanf("%d", &pin);
+
+
+            inserirFuncionario(Funcionario, nome, funcao, pin);
+            break;
+
+        case 2:
+            printf("PIN: \n");
+            scanf("%d", &pin);
+
+            printf("Digite o nome: \n");
+            scanf(" %[^\n]", nome);
+
+            deletarFuncionario(Funcionario, pin, nome);
+            break;
+
+        case 3:
+            exibirTodosFuncionarios(Funcionario);
+            break;
+
+        case 4:
+            printf("PIN: \n");
+            scanf("%d", &pin);
+
+            printf("Nome: \n");
+            scanf(" %[^\n]", nome);
+
+            modificarFuncionario(Funcionario, pin, nome);
+            break;
+        case 5:
+            return;
+
+            break;
+        default:
+            printf("Insercao invalida\n");
+
+            break;
+        }
+    }
+}
+
+int funcaoHash(int pin)
+{
+    float constante = 0.618033f;
+
+    float multip = pin * constante;
+
+    float pFracionaria = multip - (int)multip;
+
+    int indice = (int)(pFracionaria * TAMANHODATAB);
+
+    return indice;
+}
+
+void inserirFuncionario(Funcionario **tabelaHash, char *nome, char *funcao, int pin)
+{
+    Funcionario *novoFuncionario = (Funcionario *)malloc(sizeof(Funcionario));
+
+    strcpy(novoFuncionario->nome, nome);
+    strcpy(novoFuncionario->funcao, funcao);
+
+    novoFuncionario->pin = pin;
+
+    strcpy(novoFuncionario->status, "OFF");
+
+    novoFuncionario->proximo = NULL;
+
+    int indice = funcaoHash(pin);
+
+    if (tabelaHash[indice] == NULL)
+    {
+        tabelaHash[indice] = novoFuncionario;
+    }
+    else
+    {
+        Funcionario *atual = tabelaHash[indice];
+
+        while (atual->proximo != NULL)
+        {
+            atual = atual->proximo;
+        }
+        atual->proximo = novoFuncionario;
+    }
+}
+
+void deletarFuncionario(Funcionario **tabelaHash, int pinInformado, char *nomeInformado)
+{
+    int indice = funcaoHash(pinInformado);
+
+    Funcionario *atual = tabelaHash[indice];
+    Funcionario *anterior = NULL;
+
+    while (atual != NULL)
+    {
+        if (atual->pin == pinInformado && strcmp(atual->nome, nomeInformado) == 0)
+        {
+            if (anterior == NULL)
+            {
+                tabelaHash[indice] = atual->proximo;
+            }
+            else
+            {
+                anterior->proximo = atual->proximo;
+            }
+
+            free(atual);
+            printf("Funcionario %s removido com sucesso!\n", nomeInformado);
+            return;
+        }
+
+        anterior = atual;
+        atual = atual->proximo;
+    }
+
+    printf("Funcionario com PIN ou nome incorreto.\n");
+}
+
+void baterPonto(Funcionario **tabelaHash, int pinInformado, char *nomeInformado)
+{
+    int indice = funcaoHash(pinInformado);
+
+    Funcionario *atual = tabelaHash[indice];
+
+    while (atual != NULL)
+    {
+        if (atual->pin == pinInformado && strcmp(atual->nome, nomeInformado) == 0)
+        {
+            if (strcmp(atual->status, "OFF") == 0)
+            {
+                strcpy(atual->status, "ON");
+            }
+            else
+            {
+                strcpy(atual->status, "OFF");
+            }
+
+            printf("Ponto %s registrado com sucesso para %s!\n", atual->status, atual->nome);
+            return;
+        }
+        atual = atual->proximo;
+    }
+
+    printf("PIN ou nome incorreto\n");
+}
+
+void exibirTodosFuncionarios(Funcionario **tabelaHash)
+{
+    for (int i = 0; i < TAMANHODATAB; i++)
+    {
+        Funcionario *atual = tabelaHash[i];
+        
+        if (atual == NULL)
+        {
+            continue;
+        }
+        while (atual != NULL)
+        {
+            printf("Nome: %s\n", atual->nome);
+            printf("Funcao: %s\n", atual->funcao);
+            printf("Status: %s\n", atual->status);
+            printf("-----------------------\n");
+            atual = atual->proximo;
+        }
+    }
+}
+
+void modificarFuncionario(Funcionario **tabelaHash, int pin, char *nomeInformado)
+{
+    int indice = funcaoHash(pin);
+
+    Funcionario *atual = tabelaHash[indice];
+
+    while (atual != NULL)
+    {
+        if (atual->pin == pin && strcmp(nomeInformado, atual->nome) == 0)
+        {
+
+            printf("Nome atual: %s\n Modifique o nome:", atual->nome);
+            scanf(" %[^\n]", atual->nome);
+
+            printf("Funcao: %s\n Modifique a funcao: ", atual->funcao);
+            scanf(" %[^\n]", atual->funcao);
+
+            return;
+        }
+        atual = atual->proximo;
+    }
+
+    printf("Funcionario nao encontrado.\n");
+}
+
+void liberarHash(Funcionario **tabelaHash)
+{
+    for (int i = 0; i < TAMANHODATAB; i++)
+    {
+        Funcionario *atual = tabelaHash[i];
+        while (atual != NULL)
+        {
+            Funcionario *proximo = atual->proximo;
+            free(atual);
+            atual = proximo;
+        }
     }
 }

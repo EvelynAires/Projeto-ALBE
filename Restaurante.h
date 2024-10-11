@@ -2,16 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#define TAMANHODATAB 50
 
 typedef struct Prato Prato;
 
-typedef struct pedido Pedido;
+typedef struct Funcionario Funcionario;
 
 int integerValidation();
 
 int stringValidation(char *nome);
 
-void menu(Prato **raiz, int *codigo);
+void menu(Prato **raiz, int *codigo, Funcionario **Funcionario);
 
 void pratos(Prato **raiz, int *codigo);
 
@@ -29,6 +30,22 @@ Prato *deletarPrato(Prato *raiz, char *nome);
 
 void alterarPrato(Prato **raiz, char *nome);
 
-void liberarMemoria(Prato *raiz);
+void liberarABin(Prato *raiz);
 
 int verificarExis(Prato *raiz, char *nome);
+
+int funcaoHash(int pin);
+
+void inserirFuncionario(Funcionario **tabelaHash,char *nome, char *funcao, int pin);
+
+void deletarFuncionario(Funcionario **tabelaHash,int pinInformado, char *nomeInformado);
+
+void baterPonto(Funcionario **tabelaHash, int pinInformado, char *nomeInformado);
+
+void exibirTodosFuncionarios(Funcionario **tabelaHash);
+
+void modificarFuncionario(Funcionario **tabelaHash, int pin, char *nomeInformado);
+
+void liberarHash(Funcionario **tabelaHash);
+
+void menuFuncionarios(Funcionario **Funcionario);
