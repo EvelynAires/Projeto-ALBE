@@ -1,4 +1,5 @@
 #include "Restaurante.h"
+
 struct Prato
 {
     int codigo;
@@ -17,41 +18,6 @@ struct Funcionario
 
     struct Funcionario *proximo;
 };
-
-int integerValidation()
-{
-
-    int input;
-    do
-    {
-        if ((scanf(" %d", &input)) != 1)
-        {
-            printf("Permitido apenas numeros\n");
-            printf("Digite novamente: ");
-            while (getchar() != '\n')
-                ;
-        }
-        else
-        {
-            printf("\n-----------------------------\n");
-            return input;
-        }
-    } while (1);
-}
-
-int stringValidation(char *nome)
-{
-    int i;
-    for (i = 0; nome[i]; i++)
-    {
-        if (!isalpha(nome[i]) && nome[i] != ' ')
-        {
-            printf("O nome deve conter apenas letras.\n");
-            return 1;
-        }
-    }
-    return 0;
-}
 
 void menu(Prato **raiz, int *codigo, Funcionario **Funcionario)
 {
@@ -75,18 +41,22 @@ void menu(Prato **raiz, int *codigo, Funcionario **Funcionario)
 
         switch (op)
         {
-            case 1: 
+        case 1:
             menuFuncionarios(Funcionario);
             break;
         case 5:
             pratos(raiz, codigo);
             break;
         case 6:
-            printf("Nome: \n");
-            scanf(" %[^\n]", nome);
+            do
+            {
+                printf("Nome: \n");
+                scanf(" %[^\n]", nome);
+                getchar();
+            } while (stringValidation(nome));
 
             printf("PIN: \n");
-            scanf("%d", &pin);
+            pin = integerValidation();
 
             baterPonto(Funcionario, pin, nome);
             break;
@@ -408,30 +378,41 @@ void menuFuncionarios(Funcionario **Funcionario)
         printf("5 - Retornar ao menu principal \n");
 
         int op = 0;
-        scanf("%d", &op);
+        op = integerValidation();
 
         switch (op)
         {
         case 1:
-            printf("Nome: \n");
-            scanf(" %[^\n]", nome);
+            do
+            {
+                printf("Nome: ");
+                scanf(" %[^\n]", nome);
+                getchar();
+            } while (stringValidation(nome));
 
-            printf("Funcao: \n");
-            scanf(" %[^\n]", funcao);
+            do
+            {
+                printf("Funcao: ");
+                scanf(" %[^\n]", funcao);
+                getchar();
+            } while (stringValidation(funcao));
 
             printf("Pin: \n");
-            scanf("%d", &pin);
-
+            pin = integerValidation();
 
             inserirFuncionario(Funcionario, nome, funcao, pin);
             break;
 
         case 2:
             printf("PIN: \n");
-            scanf("%d", &pin);
+            pin = integerValidation();
 
-            printf("Digite o nome: \n");
-            scanf(" %[^\n]", nome);
+            do
+            {
+                printf("Nome: ");
+                scanf(" %[^\n]", nome);
+                getchar();
+            } while (stringValidation(nome));
 
             deletarFuncionario(Funcionario, pin, nome);
             break;
@@ -442,10 +423,14 @@ void menuFuncionarios(Funcionario **Funcionario)
 
         case 4:
             printf("PIN: \n");
-            scanf("%d", &pin);
+            pin = integerValidation();
 
-            printf("Nome: \n");
-            scanf(" %[^\n]", nome);
+            do
+            {
+                printf("Nome: ");
+                scanf(" %[^\n]", nome);
+                getchar();
+            } while (stringValidation(nome));
 
             modificarFuncionario(Funcionario, pin, nome);
             break;
@@ -570,7 +555,7 @@ void exibirTodosFuncionarios(Funcionario **tabelaHash)
     for (int i = 0; i < TAMANHODATAB; i++)
     {
         Funcionario *atual = tabelaHash[i];
-        
+
         if (atual == NULL)
         {
             continue;
@@ -597,11 +582,21 @@ void modificarFuncionario(Funcionario **tabelaHash, int pin, char *nomeInformado
         if (atual->pin == pin && strcmp(nomeInformado, atual->nome) == 0)
         {
 
-            printf("Nome atual: %s\n Modifique o nome:", atual->nome);
-            scanf(" %[^\n]", atual->nome);
+            printf("Nome atual: %s\n ", atual->nome);
+            do
+            {
+                printf("Modifique o nome:: ");
+                scanf(" %[^\n]", atual->nome);
+                getchar();
+            } while (stringValidation(atual->nome));
 
-            printf("Funcao: %s\n Modifique a funcao: ", atual->funcao);
-            scanf(" %[^\n]", atual->funcao);
+            printf("Funcao: %s\n  ", atual->funcao);
+            do
+            {
+                printf("Modifique a funcao: ");
+                scanf(" %[^\n]", atual->funcao);
+                getchar();
+            } while (stringValidation(atual->funcao));
 
             return;
         }

@@ -2,15 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "validacoes.h"
+
 #define TAMANHODATAB 50
 
 typedef struct Prato Prato;
 
 typedef struct Funcionario Funcionario;
-
-int integerValidation();
-
-int stringValidation(char *nome);
 
 void menu(Prato **raiz, int *codigo, Funcionario **Funcionario);
 

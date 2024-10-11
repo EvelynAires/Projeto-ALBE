@@ -1,4 +1,5 @@
 #include "Restaurante.h"
+#include "validacoes.h"
 
 int main(void)
 {
