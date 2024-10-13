@@ -10,8 +10,6 @@ typedef struct Prato Prato;
 
 typedef struct Funcionario Funcionario;
 
-void menu(Prato **raiz, int *codigo, Funcionario **Funcionario);
-
 void pratos(Prato **raiz, int *codigo);
 
 Prato *criarABin(int codigo, char nome[], float preco);

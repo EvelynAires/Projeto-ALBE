@@ -19,58 +19,6 @@ struct Funcionario
     struct Funcionario *proximo;
 };
 
-void menu(Prato **raiz, int *codigo, Funcionario **Funcionario)
-{
-    char nome[20];
-    char funcao[20];
-    int pin, op;
-    do
-    {
-        printf("------------------------------- \n");
-        printf("      Bem-Vindo(a)!\n");
-        printf("1 - Cadastro de funcionarios \n");
-        printf("2 - Pedidos \n");
-        printf("3 - Estoque \n");
-        printf("4 - Reservas \n");
-        printf("5 - Menu de pratos \n");
-        printf("6 - Registrar ponto \n");
-        printf("7 - Sair \n");
-        printf("------------------------------- \n");
-        printf("Escolha uma opcao: ");
-        op = integerValidation();
-
-        switch (op)
-        {
-        case 1:
-            menuFuncionarios(Funcionario);
-            break;
-        case 5:
-            pratos(raiz, codigo);
-            break;
-        case 6:
-            do
-            {
-                printf("Nome: \n");
-                scanf(" %[^\n]", nome);
-                getchar();
-            } while (stringValidation(nome));
-
-            printf("PIN: \n");
-            pin = integerValidation();
-
-            baterPonto(Funcionario, pin, nome);
-            break;
-        case 7:
-            liberarABin(*raiz);
-            liberarHash(Funcionario);
-            printf("Saindo...\n");
-            break;
-        default:
-            printf("Tente outra opcao!\n");
-        }
-    } while (op != 7);
-}
-
 Prato *criarABin(int codigo, char nome[], float preco)
 {
     Prato *novo = (Prato *)malloc(sizeof(Prato));
