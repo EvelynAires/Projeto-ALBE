@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "validacoes.h"
+#include "..\Validacoes\validacoes.h"
 
 #define TAMANHODATAB 50
 

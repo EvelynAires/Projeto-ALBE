@@ -1,5 +1,5 @@
-#include "Restaurante.h"
-#include "validacoes.h"
+#include "./Restaurante/Restaurante.h"
+#include "./Validacoes/validacoes.h"
 
 int main(void)
 {
@@ -58,6 +58,7 @@ int main(void)
             printf("Saindo...\n");
             liberarABin(raiz);
             liberarHash(tabelaHash);
+            return 0;
             break;
         default:
             printf("Opcao invalida!\n");
