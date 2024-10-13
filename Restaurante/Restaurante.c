@@ -22,6 +22,11 @@ struct Funcionario
 Prato *criarABin(int codigo, char nome[], float preco)
 {
     Prato *novo = (Prato *)malloc(sizeof(Prato));
+    if (novo == NULL)
+    {
+        printf("Problema na realocacao.\n");
+        exit(1);
+    }
     novo->codigo = codigo;
     novo->preco = preco;
     strcpy(novo->nome, nome);
@@ -53,7 +58,8 @@ void exibirPratos(Prato *raiz)
     if (raiz != NULL)
     {
         exibirPratos(raiz->esquerda);
-        printf("Prato: %s, Codigo: %d Preco: R$%.2f\n", raiz->nome, raiz->codigo, raiz->preco);
+        printf(" Prato: %s (Codigo %d)\n Preco: R$%.2f\n", raiz->nome, raiz->codigo, raiz->preco);
+        printf("----------------------------------\n");
         exibirPratos(raiz->direita);
     }
 }
@@ -73,6 +79,23 @@ Prato *buscarPrato(Prato *raiz, char *nome)
     {
         return buscarPrato(raiz->direita, nome);
     }
+}
+
+void buscarPratos(Prato *raiz, char *nome, int *encontrados)
+{
+    if (raiz == NULL)
+    {
+        return;
+    }
+
+    if (strstr(raiz->nome, nome) != NULL)
+    {
+        printf("Prato encontrado: %s, Codigo: %d, Preco: R$%.2f\n", raiz->nome, raiz->codigo, raiz->preco);
+        (*encontrados)++;
+    }
+
+    buscarPratos(raiz->esquerda, nome, encontrados);
+    buscarPratos(raiz->direita, nome, encontrados);
 }
 
 Prato *encontrarMinimo(Prato *raiz)
@@ -139,34 +162,50 @@ void alterarPrato(Prato **raiz, char *nome)
         return;
     }
 
-    printf("Prato encontrado: %s , Preco: %.2f (Codigo: %d)\n", prato->nome, prato->preco, prato->codigo);
+    printf("Prato encontrado: %s\n Preco: %.2f\n (Codigo: %d)\n", prato->nome, prato->preco, prato->codigo);
 
     char novoNome[50];
     float preco;
-    int valid;
-
-    do
+    int valid, op;
+    int cod = 0;
+    printf("O que deseja alterar? \n");
+    printf(" 1 - Nome\n");
+    printf(" 2 - Preco\n");
+    scanf(" %d", &op);
+    switch (op)
     {
-        printf("Digite o novo nome do prato: ");
-        scanf(" %[^\n]", novoNome);
-        getchar();
-    } while (stringValidation(novoNome));
-    do
-    {
-        printf("Digite o preco: \n");
-        valid = scanf(" %f", &preco);
-        while (getchar() != '\n')
-            ;
-        if (valid == 0)
+    case 1:
+        do
         {
-            printf("Por favor, insira um numero valido para o preco.\n");
-        }
-    } while (valid == 0);
-
-    int codigoPrato = prato->codigo;
-
-    *raiz = deletarPrato(*raiz, nome);
-    *raiz = inserirPrato(*raiz, codigoPrato, novoNome, preco);
+            printf("Digite o novo nome do prato: ");
+            scanf(" %[^\n]", novoNome);
+            getchar();
+        } while (stringValidation(novoNome));
+        preco = prato->preco;
+        cod = prato->codigo;
+        *raiz = deletarPrato(*raiz, nome);
+        *raiz = inserirPrato(*raiz, cod, novoNome, preco);
+        break;
+    case 2:
+        do
+        {
+            printf("Digite o preco: \n");
+            valid = scanf(" %f", &preco);
+            while (getchar() != '\n')
+                ;
+            if (valid == 0)
+            {
+                printf("Por favor, insira um numero valido para o preco.\n");
+            }
+        } while (valid == 0);
+        cod = prato->codigo;
+        *raiz = deletarPrato(*raiz, nome);
+        *raiz = inserirPrato(*raiz, cod, prato->nome, preco);
+        break;
+    default:
+        printf("Opcao invalida!\n");
+        break;
+    }
 
     printf("Prato alterado e reposicionado na arvore!\n");
 }
@@ -176,6 +215,7 @@ void pratos(Prato **raiz, int *codigo)
     int opcao, valid;
     float preco;
     char nome[50];
+    int encontrados = 0;
 
     do
     {
@@ -196,8 +236,7 @@ void pratos(Prato **raiz, int *codigo)
             do
             {
                 printf("Digite o nome do prato: ");
-                getchar();
-                scanf("%[^\n]", nome);
+                scanf(" %[^\n]", nome);
             } while (stringValidation(nome));
             do
             {
@@ -212,7 +251,7 @@ void pratos(Prato **raiz, int *codigo)
             } while (valid == 0);
             if (verificarExis(*raiz, nome))
             {
-                printf("O prato já existe!\n");
+                printf("O prato ja existe!\n");
             }
             else
             {
@@ -236,36 +275,33 @@ void pratos(Prato **raiz, int *codigo)
             do
             {
                 printf("Digite o nome do prato a ser buscado: ");
-                getchar();
-                scanf("%[^\n]", nome);
+                scanf(" %[^\n]", nome);
             } while (stringValidation(nome));
-            Prato *prato = buscarPrato(*raiz, nome);
-            if (prato != NULL)
+            getchar();
+            buscarPratos(*raiz, nome, &encontrados);
+            if (encontrados == 0)
             {
-                printf("Prato encontrado: %s, Codigo: %d\n, Preco: %.2f\n", prato->nome, prato->codigo, prato->preco);
+                printf("Nenhum prato encontrado.\n");
             }
-            else
-            {
-                printf("Prato nao encontrado!\n");
-            }
+            getchar();
             break;
         case 4:
             do
             {
                 printf("Digite o nome do prato a ser deletado: ");
                 getchar();
-                scanf("%[^\n]", nome);
+                scanf(" %[^\n]", nome);
             } while (stringValidation(nome));
-
+            getchar();
             *raiz = deletarPrato(*raiz, nome);
             break;
         case 5:
             do
             {
                 printf("Digite o nome do prato: ");
-                getchar();
                 scanf("%[^\n]", nome);
             } while (stringValidation(nome));
+            getchar();
             alterarPrato(raiz, nome);
             break;
         default:
@@ -410,6 +446,11 @@ int funcaoHash(int pin)
 void inserirFuncionario(Funcionario **tabelaHash, char *nome, char *funcao, int pin)
 {
     Funcionario *novoFuncionario = (Funcionario *)malloc(sizeof(Funcionario));
+    if (novoFuncionario == NULL)
+    {
+        printf("Problema na realocacao.\n");
+        exit(1);
+    }
 
     strcpy(novoFuncionario->nome, nome);
     strcpy(novoFuncionario->funcao, funcao);

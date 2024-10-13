@@ -20,6 +20,8 @@ void exibirPratos(Prato *raiz);
 
 Prato *buscarPrato(Prato *raiz, char *nome);
 
+void buscarPratos(Prato *raiz, char *nome, int *encontrados);
+
 Prato *encontrarMinimo(Prato *raiz);
 
 Prato *deletarPrato(Prato *raiz, char *nome);

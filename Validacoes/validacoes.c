@@ -1,24 +1,29 @@
 #include "validacoes.h"
 
-int integerValidation()
-{
+int integerValidation() {
+    char input[100];
+    int isNumber = 0;
 
-    int input;
-    do
-    {
-        if ((scanf(" %d", &input)) != 1)
-        {
+    do {
+        fgets(input, 100, stdin);
+
+        isNumber = 1;
+        for (int i = 0; i < strlen(input) - 1; i++) {
+            if (!isdigit(input[i])) {
+                isNumber = 0;
+                break;
+            }
+        }
+        if (isNumber) {
+            return atoi(input);
+        } else {
             printf("Permitido apenas numeros\n");
-            printf("Digite novamente: ");
-            while (getchar() != '\n')
-                ;
+            printf("Tente novamente: ");
         }
-        else
-        {
-            printf("\n-----------------------------\n");
-            return input;
-        }
-    } while (1);
+
+    } while (!isNumber);
+
+    return 0;
 }
 
 int stringValidation(char *nome)
