@@ -10,6 +10,10 @@ typedef struct Prato Prato;
 
 typedef struct Funcionario Funcionario;
 
+typedef struct Pedido Pedido;
+
+typedef struct Fila Fila;
+
 void pratos(Prato **raiz, int *codigo);
 
 Prato *criarABin(int codigo, char nome[], float preco);
@@ -47,3 +51,15 @@ void modificarFuncionario(Funcionario **tabelaHash, int pin, char *nomeInformado
 void liberarHash(Funcionario **tabelaHash);
 
 void menuFuncionarios(Funcionario **Funcionario);
+
+Fila* criarFila();
+
+void liberarFila(Fila *fila);
+
+void inserirPedido(Fila *fila, char *nomePrato, int quantidade);
+
+void removerPedido(Fila *fila);
+
+void exibirFila(Fila *fila);
+
+void menuPedidos(Fila *fila);

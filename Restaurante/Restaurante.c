@@ -18,13 +18,25 @@ struct Funcionario
 
     struct Funcionario *proximo;
 };
+struct Pedido
+{
+    char descricao[250];
+    int quantidade;
+    Pedido *proximo;
+};
+
+struct Fila
+{
+    Pedido *frente;
+    Pedido *tras;
+};
 
 Prato *criarABin(int codigo, char nome[], float preco)
 {
     Prato *novo = (Prato *)malloc(sizeof(Prato));
     if (novo == NULL)
     {
-        printf("Problema na realocacao.\n");
+        printf("Problema na alocacao.\n");
         exit(1);
     }
     novo->codigo = codigo;
@@ -171,7 +183,7 @@ void alterarPrato(Prato **raiz, char *nome)
     printf("O que deseja alterar? \n");
     printf(" 1 - Nome\n");
     printf(" 2 - Preco\n");
-    scanf(" %d", &op);
+    op = integerValidation();
     switch (op)
     {
     case 1:
@@ -607,4 +619,131 @@ void liberarHash(Funcionario **tabelaHash)
             atual = proximo;
         }
     }
+}
+
+Fila *criarFila()
+{
+    Fila *fila = (Fila *)malloc(sizeof(Fila));
+    if (fila)
+    {
+        fila->frente = NULL;
+        fila->tras = NULL;
+    }
+    return fila;
+}
+
+void liberarFila(Fila *fila)
+{
+    while (fila->frente != NULL)
+    {
+        removerPedido(fila);
+    }
+    free(fila);
+}
+
+void inserirPedido(Fila *fila, char *nomePrato, int quantidade)
+{
+    Pedido *novoPedido = (Pedido *)malloc(sizeof(Pedido));
+    if (!novoPedido)
+    {
+        printf("Problema na alocacao.\n");
+        return;
+    }
+    strcpy(novoPedido->descricao, nomePrato);
+    novoPedido->quantidade = quantidade;
+    novoPedido->proximo = NULL;
+
+    if (fila->tras == NULL)
+    {
+        fila->frente = novoPedido;
+    }
+    else
+    {
+        fila->tras->proximo = novoPedido;
+    }
+    fila->tras = novoPedido;
+    printf("Pedido inserido: %s (Quantidade: %d)\n", nomePrato, quantidade);
+}
+
+void removerPedido(Fila *fila)
+{
+    if (fila->frente == NULL)
+    {
+        printf("A fila esta vazia. Nenhum pedido para remover.\n");
+        return;
+    }
+
+    Pedido *temp = fila->frente;
+    fila->frente = fila->frente->proximo;
+
+    if (fila->frente == NULL)
+    {
+        fila->tras = NULL;
+    }
+
+    free(temp);
+}
+
+void exibirFila(Fila *fila)
+{
+    if (fila->frente == NULL)
+    {
+        printf("A fila esta vazia.\n");
+        return;
+    }
+
+    Pedido *atual = fila->frente;
+    while (atual != NULL)
+    {
+        printf("\n-------------------\nPedido: %s (Quantidade: %d)\n -------------------\n", atual->descricao, atual->quantidade);
+        atual = atual->proximo;
+    }
+}
+
+void menuPedidos(Fila *fila)
+{
+    int opcao;
+    char descricao[50];
+    int quantidade;
+
+    do
+    {
+        printf("\n=== Menu Pedidos ===\n");
+        printf("1 - Adicionar pedido\n");
+        printf("2 - Remover primeiro pedido\n");
+        printf("3 - Ver fila de pedidos\n");
+        printf("4 - Sair\n");
+        printf("Escolha uma opcao: ");
+        opcao = integerValidation();
+        getchar();
+
+        switch (opcao)
+        {
+        case 1:
+            printf("\n----------------------------------------\n");
+            printf("Digite a descricao do pedido, inclua detalhes especificos\n");
+            printf("como o nome do prato, se o cliente deseja ou nao determinados tipos de temperos\n");
+            printf("e especifique o modo de preparo.\n");
+            printf("\n----------------------------------------\n Descricao: ");
+            fgets(descricao, sizeof(descricao), stdin);
+
+            printf("Quantidade: ");
+            quantidade = integerValidation();
+
+            inserirPedido(fila, descricao, quantidade);
+            break;
+        case 2:
+            removerPedido(fila);
+            printf("Primeiro pedido removido!\n");
+            break;
+        case 3:
+            exibirFila(fila);
+            break;
+        case 4:
+            printf("Saindo...\n");
+            break;
+        default:
+            printf("Opcao invalida. Tente novamente.\n");
+        }
+    } while (opcao != 4);
 }

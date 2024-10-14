@@ -9,6 +9,7 @@ int main(void)
 
     Prato *raiz = NULL;
     Funcionario *tabelaHash[TAMANHODATAB];
+    Fila *fila = criarFila();
 
     for (int i = 0; i < TAMANHODATAB; i++)
     {
@@ -35,14 +36,16 @@ int main(void)
             menuFuncionarios(tabelaHash);
             break;
         case 2:
-            printf("Funcionalidade de pedidos ainda nao implementada.\n");
+            menuPedidos(fila);
             break;
         case 3:
             printf("Funcionalidade de estoque ainda nao implementada.\n");
             break;
+
         case 4:
             pratos(&raiz, &codigo);
             break;
+
         case 5:
             do
             {
@@ -54,16 +57,18 @@ int main(void)
             pin = integerValidation();
             baterPonto(tabelaHash, pin, nome);
             break;
+
         case 6:
             printf("Saindo...\n");
             liberarABin(raiz);
             liberarHash(tabelaHash);
+            liberarFila(fila);
             return 0;
-            break;
+
         default:
             printf("Opcao invalida!\n");
         }
-    } while (op != 7);
+    } while (op != 6);
 
     return 0;
 }
