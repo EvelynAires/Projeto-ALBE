@@ -10,6 +10,7 @@ int main(void)
     Prato *raiz = NULL;
     Funcionario *tabelaHash[TAMANHODATAB];
     Fila *fila = criarFila();
+    AVL *estoque = NULL;
 
     for (int i = 0; i < TAMANHODATAB; i++)
     {
@@ -39,7 +40,7 @@ int main(void)
             menuPedidos(fila);
             break;
         case 3:
-            printf("Funcionalidade de estoque ainda nao implementada.\n");
+            menuEstoque(&estoque);
             break;
 
         case 4:
@@ -63,6 +64,7 @@ int main(void)
             liberarABin(raiz);
             liberarHash(tabelaHash);
             liberarFila(fila);
+            liberarAVL(estoque);
             return 0;
 
         default:
