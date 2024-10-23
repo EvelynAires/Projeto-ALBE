@@ -21,20 +21,18 @@
 
 ## *Nesse arquivo você verá:*
 - [Introdução](#Introdução)
-- [Descrição](#Descrição)
+- [Estrutura de Dados](#Estrutura-de-Dados)
 - [Organização do Menu](#Organização-do-Menu)
 - [Funções Implementadas](#Funções-Implementadas)
 
 ## *Introdução* 
-O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante. Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
+O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante, irá contar com um menu principal de 6 opções onde estará disponibilizando um controle de funcioários, pedidos e estoque do restaurante, Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
 
-## *Descrição* 
-  O sistema do ALBE Restaurante irá contar com um menu de 7 opções, incluindo a opção de sair, foi criado para conter as funcionalidades de cadastrar funcionários, gerenciar os pedidos, ter a organização de estoque, obter o controle das reservas, 
-ter a visualização do Menu de pratos do restaurante e também registrar o ponto dos funcionários. 
-
- No que se refere aos conteúdos aprendidos em sala, utilizaremos Tabela Hash, HEAP, AVL e Árvore Binária.
- 
-
+## *Estrutura de Dados* 
+- Tabela Hash
+- Árvore AVL
+- Árvore Binária
+- Fila
 
 ## *Organização do Menu* 
 ```
@@ -43,23 +41,46 @@ ter a visualização do Menu de pratos do restaurante e também registrar o pont
 1 - Cadastro de funcionarios
 2 - Pedidos
 3 - Estoque
-4 - Reservas
-5 - Menu de Pratos
-6 - Registrar Ponto
-7 - Sair
+4 - Menu de Pratos
+5 - Registrar Ponto
+6 - Sair
 ---------------------------------
 ```
 
 ## *Funções Implementadas*
-### 1 - Cadastro de Funcionários 
+### 1 - Cadastro de Funcionários
+```
+1 - Registrar funcionario
+2 - Deletar funcionario
+3 - Mostrar funcionarios
+4 - Modificar dados
+5 - Retornar ao menu principal
+```
+  Ao selecionar essa opção teremos um menu, implementado com a tabela hash e é responsável pelo controle de funcionários no restaurante, disponibilizando o registro de funcionários para cadastrar os seus dados como o nome, sua função, o pin e o status, disponibilizando também a remoção de funcionários, para exibir os funcionários que estão cadastrados, modificar os dados já cadastrados de um funcionário e também com a opção de retornar ao menu principal.
 
 ### 2- Pedidos
+```
+   === Menu Pedidos ===
+1 - Adicionar pedido
+2 - Remover primeiro pedido
+3 - Ver fila de pedidos
+4 - Sair
+```
+ Nessa opção, o usuário poderá ter o gerenciamento dos pedidos realizados através do menu de pedidos que foi implementado com fila, disponibilizando as opções de adicionar um pedido, remover o primeiro elemento adicionado e de ver a fila de pedidos atual.
+ 
 
 ### 3 - Estoque 
+```
+Menu do Estoque:
+1 - Inserir um produto
+2 - Buscar produto no estoque
+3 - Remover produto/quantidade
+4 - Exibir todo o estoque
+5 - Sair
+```
+Ao escolher essa opção, irá ser apresentado um menu de estoques implementado com árvore AVL e que disponibilizará as opções de inserir um produto ao estoque, de buscar um produto já adicionado, de remover um produto e de remover a quantidade de um produto e também de exibir todos os produtos que estão no estoque.
 
-### 4 - Reservas
-
-### 5 - Menu de Pratos
+### 4 - Menu de Pratos
 ```
 ---- Menu de Pratos ----
 1 - Criar um novo prato
@@ -70,37 +91,12 @@ ter a visualização do Menu de pratos do restaurante e também registrar o pont
 6 - Voltar ao menu principal
 ------------------------
 ```
+Selecionando essa opção o usuário terá acesso ao menu de pratos que foi implementado utilizando a árvore binária de busca e ele poderá gerenciar através das funcionalidades de criar um novo prato, exibir todos os pratos, buscar um prato adicionado, deletar um prato e de alterar os dados de um prato que foi adicionado.
 
-#### 1 - Criar um novo prato
-``Prato *inserirPrato(Prato *raiz, int codigo, char nome[])``:
-  Essa função insere um novo nó em uma árvore binária de busca, recebendo a raiz da árvore, o código e o nome do novo prato a ser inserido. No caso da raiz ser nula, cria um novo nó usando a função criar ABin. Caso não seja, compara o código do novo prato inserido com o código que está na raiz, se for menor, insere na sunárvore à esquerda e se for maior, na subárvore à direita, retornando a raiz já atualizada com a nova inserção.
+### 5 - Registrar Ponto
+Nessa opção foi utilizado a tabela hash para ser  realizado o registro de ponto dos funcionários.
 
-#### 2 - Exibir todos os pratos
-``void exibirPratos(Prato *raiz)``:
-Ela tem como objetivo exibir os pratos, então irá percorrer e exibir todos os pratos que estarão armazenados. Recebe como parâmetro a raiz da árvore e caso não seja nula, irá fazer uma chamada recursiva para percorrer a subárvore esquerda e logo após a direita, exibindo os pratos em ordem crescente de seus códigos.
-
-#### 3 - Buscar um prato
-``Prato *buscarPrato(Prato *raiz, int codigo)``:
-Essa função serve para procurar um prato específico na árvore binária de busca de acordo com o código do prato. Recebe a raiz e o código para ser achado, caso a raiz for nula ou o código do prato a ser encontrado coincida com o código buscado, a função irá retornar ou o nó atual ou NULL caso o prato não exista. E caso o código for menor do que o nó atual, irá realizar uma busca recursiva na subárvore que está à esquerda e se for maior, irá realizar à direita.
-
-#### 4 - Deletar um prato
-``Prato *deletarPrato(Prato *raiz, int codigo)``:
-Ela busca o nó que contém o código que está sendo procurado, percorrendo a subárvore esquerda caso seja menor que a raiz e caso seja maior a subárvore direita e quando o nó é encontrado temos três possíveis acontecimentos: Se esse nó não tiver filhos ele é apenas removido; se ele tiver um filho, um ponteiro para esse filho substituirá o nó removido e se ele tiver dois filhos a função irá encontrar o menor valor da subárvore direita chamado sucessor, substituir os dados do nó por esse valor e depois remover o sucessor da subárvore direita. Depois da remoção, essa função retorna a raiz utilizada da árvore.
-
-#### 5 - Alterar os dados de um prato
-``void alterarPrato(Prato *raiz, int codigo)``:
-Nessa função é realizada a busca pelo código, caso o código não seja encontrado, é impressa a mensagem que o prato do código informado não foi encontrado e caso seja encontrado, o nome atual do prato é mostrado e o programa irá solicitar para que o usuário digite o novo nome, exibindo logo após a confirmação a mensagem comunicando que o nome foi alterado.
-
-#### 6 - Voltar ao menu principal 
-`` case 6:
-            printf("Voltando ao menu principal...\n");``:
-Essa função irá sair do menu de pratos, dando assim o break e retornando ao menu principal.
-            
-
-
-### 6 - Registrar Ponto
-
-### 7 - Sair
-
+### 6 - Sair
+ Ao optar o 6, o programa será encerrado.
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&color=FFFFFF&section=footer"/>
