@@ -19,8 +19,9 @@
 - [Introdução](#Introdução)
 - [Estrutura de Dados](#Estrutura-de-Dados)
 - [Organização](#Organização)
-- [Funções Implementadas](#Funções-Implementadas)
-- [Linguagem utilizada](#Linguagem-utilizada)
+- [Funcionalidades do Sistema](#Funcionalidades-do-Sistema)
+- [Linguagem Utilizada](#Linguagem-Utilizada)
+- [Compilando e Executando o Sistema](#Compilando-e-Executando-o-Sistema)
 
 ### *Introdução* 
 O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante, irá contar com um menu principal de 6 opções onde estará disponibilizando um controle de funcioários, pedidos e estoque do restaurante, Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
@@ -109,8 +110,20 @@ Nessa opção foi utilizado a tabela hash para ser  realizado o registro de pont
 ### 6 - Sair
  Ao optar o 6, o programa será encerrado.
 
- ## *Linguagem utilizada*
+ ## *Linguagem Utilizada*
 
 ![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
 
+## *Compilando e Executando o Sistema*
+- Utilize o terminal de sua preferência para compilar o programa.
+- Navegue até o diretório onde o projeto está localizado.
+  
+   ```caminho/da/pasta/do/projeto.```
+- Compile o código usando o GCC.
+  
+   ```gcc Restaurante/Restaurante.c Validacoes/validacoes.c main.c -o programa```
+- Execute o programa já compilado.
+
+   ```./programa```
+- E então utilize e aproveite o nosso sistema.
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&color=FFFFFF&section=footer"/>
