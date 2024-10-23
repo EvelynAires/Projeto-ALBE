@@ -14,23 +14,29 @@
 - [Evelyn Cristina de Oliveira Gomes](https://github.com/EvelynAires)
 - [Luiz Eduardo de A. Rodrigues](https://github.com/LuizEdu-AR)
 
+ ## *Linguagem Utilizada*
+
+![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
+
 
 ## *Nesse arquivo você verá:*
 - [Introdução](#Introdução)
 - [Estrutura de Dados](#Estrutura-de-Dados)
 - [Organização](#Organização)
 - [Funcionalidades do Sistema](#Funcionalidades-do-Sistema)
-- [Linguagem Utilizada](#Linguagem-Utilizada)
 - [Compilando e Executando o Sistema](#Compilando-e-Executando-o-Sistema)
 
 ### *Introdução* 
-O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante, irá contar com um menu principal de 6 opções onde estará disponibilizando um controle de funcioários, pedidos e estoque do restaurante, Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
+O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante, irá contar com um menu principal de 6 opções onde estará disponibilizando um controle de funcionários, pedidos e estoque do restaurante, Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
 
 ### *Estrutura de Dados* 
-- Tabela Hash
-- Árvore AVL
-- Árvore Binária
-- Fila
+- Tabela Hash: Uma tabela hash é uma estrutura de dados que armazena pares chave-valor, permitindo a localização rápida de um valor a partir de sua chave. Ela utiliza uma função hash para transformar a chave em um índice no array, onde o valor correspondente é armazenado. Caso duas chaves resultem no mesmo índice (colisão), a tabela hash utiliza métodos para resolver esse conflito; no nosso caso, usamos o método de encadeamento. Isso torna as operações de busca e inserção rápidas e eficientes, logo,  tanto busca quanto inserção se beneficiam da eficiência da tabela hash.
+
+- Árvore AVL: Uma árvore AVL é uma estrutura que organiza dados de forma que o algoritmo possa encontrá-los rapidamente, mantendo o equilíbrio entre suas partes. Isso ajuda a evitar que a árvore fique muito desbalanceada, garantindo que as operações de busca, adição e remoção sejam rápidas. Quando se adiciona ou remove dados, a árvore se ajusta automaticamente para manter esse equilíbrio.
+  
+- Árvore Binária de Busca: Uma árvore binária de busca organiza dados de forma que cada nó tem um valor, e os valores à esquerda são menores enquanto os da direita são maiores. Isso facilita a busca, onde através de comparações, o algoritmo navega pela árvore. Ao adicionar ou remover dados, a árvore se ajusta para manter essa ordem, garantindo que a busca continue rápida.
+  
+- Fila: Uma fila é uma estrutura de dados que armazena elementos em ordem, seguindo o princípio "primeiro a entrar, primeiro a sair" (FIFO). Os elementos são adicionados no final e removidos do início. É útil em situações como gerenciamento de tarefas e impressão de documentos.
 
 ## *Organização* 
 ```
@@ -67,7 +73,7 @@ O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerencia
 4 - Modificar dados
 5 - Retornar ao menu principal
 ```
-  Ao selecionar essa opção teremos um menu, implementado com a tabela hash e é responsável pelo controle de funcionários no restaurante, disponibilizando o registro de funcionários para cadastrar os seus dados como o nome, sua função, o pin e o status, disponibilizando também a remoção de funcionários, para exibir os funcionários que estão cadastrados, modificar os dados já cadastrados de um funcionário e também com a opção de retornar ao menu principal.
+  Ao selecionar essa opção teremos um menu, implementado com a tabela hash e é responsável pelo controle de funcionários no restaurante, disponibilizando o registro de funcionários para cadastrar os seus dados como o nome, sua função, o pin e o status, disponibilizando também a remoção de funcionários, para exibir os funcionários que estão cadastrados, modificar os dados já cadastrados de um funcionário e a opção de retornar ao menu principal.
 
 ### 2- Pedidos
 ```
