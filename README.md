@@ -15,26 +15,38 @@
 - [Luiz Eduardo de A. Rodrigues](https://github.com/LuizEdu-AR)
 
 
-## *Linguagem utilizada*
-
-![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
-
 ## *Nesse arquivo você verá:*
 - [Introdução](#Introdução)
 - [Estrutura de Dados](#Estrutura-de-Dados)
-- [Organização do Menu](#Organização-do-Menu)
+- [Organização](#Organização)
 - [Funções Implementadas](#Funções-Implementadas)
+- [Linguagem utilizada](#Linguagem-utilizada)
 
-## *Introdução* 
+### *Introdução* 
 O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerenciamento interno de um restaurante, irá contar com um menu principal de 6 opções onde estará disponibilizando um controle de funcioários, pedidos e estoque do restaurante, Será utilizado para facilitar e deixar mais eficiente, garantindo assim o bom funcionamento do estabelecimento.
 
-## *Estrutura de Dados* 
+### *Estrutura de Dados* 
 - Tabela Hash
 - Árvore AVL
 - Árvore Binária
 - Fila
 
-## *Organização do Menu* 
+## *Organização* 
+```
+📁 - Projeto-ALBE
+│
+├───Restaurante
+│   ├───Restaurante.c
+│   └───Restaurante.h
+├───Validacoes
+│   ├───Validacoes.c
+│   └───Validacoes.h
+├───main.c
+└───README.md
+```
+
+## *Funcionalidades do Sistema*
+###  Menu Principal
 ```
 ---------------------------------
       Bem-Vindo(a)!
@@ -46,8 +58,6 @@ O ALBE Restaurante se trata de um sistema pensado e desenvolvido para o gerencia
 6 - Sair
 ---------------------------------
 ```
-
-## *Funções Implementadas*
 ### 1 - Cadastro de Funcionários
 ```
 1 - Registrar funcionario
@@ -98,5 +108,9 @@ Nessa opção foi utilizado a tabela hash para ser  realizado o registro de pont
 
 ### 6 - Sair
  Ao optar o 6, o programa será encerrado.
+
+ ## *Linguagem utilizada*
+
+![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
 
 <img width=100% src="https://capsule-render.vercel.app/api?type=waving&height=120&color=FFFFFF&section=footer"/>
