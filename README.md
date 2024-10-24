@@ -116,9 +116,6 @@ Nessa opção foi utilizado a tabela hash para ser  realizado o registro de pont
 ### 6 - Sair
  Ao optar o 6, o programa será encerrado.
 
- ## *Linguagem Utilizada*
-
-![C](https://img.shields.io/badge/C-007ACC?style=for-the-badge&logo=C&logoColor=white)&nbsp;
 
 ## *Compilando e Executando o Sistema*
 - Utilize o terminal de sua preferência para compilar o programa.
